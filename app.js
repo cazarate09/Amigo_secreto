@@ -1,7 +1,7 @@
 // El principal objetivo de este desafío es fortalecer tus habilidades en lógica de programación. Aquí deberás desarrollar la lógica para resolver el problema.
 
 let amigos = [];
-
+let listaAuxiliar = [];
 function agregarAmigo()
 {
     
@@ -53,6 +53,7 @@ function actualizarListaDeAmigos(amigos)
 
 function sortearAmigo()
 {
+    
     limpiarListas();
     let lista = document.getElementById('resultado');
     let ultimoIndice = null;
@@ -68,29 +69,32 @@ function sortearAmigo()
         elemento.appendChild(textoCompleto);
         lista.appendChild(elemento);    
     }
-    else
-    {   /*Es necesario utilizar esta validación con Do-While para que cada vez que se 
-          oprima el botón el resultado sea diferente*/
-        do {
-            indice = Math.floor(Math.random() * (amigos.length));
-            console.log(indice);      
-        } while (indice === ultimoIndice && amigos.length > 1);
+    else if (listaAuxiliar.length >= amigos.length )
+    {  
+        textoCompleto = document.createTextNode("Fin del sorteo, no hay más amigos");
+        elemento.appendChild(textoCompleto);
+        document.getElementById('button-sortear').setAttribute('disabled', 'true');
+        lista.appendChild(elemento);
+    }
+    else    
+    {    
+     do 
+     {
+        indice = Math.floor(Math.random() * (amigos.length));
+        console.log(indice);    
+    } while (listaAuxiliar.includes(amigos[indice]));
         
-        ultimoIndice = indice;
+        //ultimoIndice = indice;
         amigoSeleccionado = amigos[indice];
+        listaAuxiliar.push(amigoSeleccionado);
+        console.log(listaAuxiliar);
+
         //Con la función createTextNode() se crea un elemento para concatenar el texto solicitado con el amigo seleccionado
-        if(amigos.length == 1)
-        {
-            textoCompleto = document.createTextNode(`Solo existe un amigo: ${amigoSeleccionado}`);
-            elemento.appendChild(textoCompleto);
-            lista.appendChild(elemento);    
-        }
-        else
-        {
-            textoCompleto = document.createTextNode(`El amigo amigo secreto sorteado es: ${amigoSeleccionado}`);
-            console.log(amigoSeleccionado); 
-            lista.appendChild(textoCompleto);
-        }
+        
+        textoCompleto = document.createTextNode(`El amigo sorteado es: ${amigoSeleccionado}`);
+        
+        elemento.appendChild(textoCompleto);
+        lista.appendChild(elemento);
     }
 }
 
